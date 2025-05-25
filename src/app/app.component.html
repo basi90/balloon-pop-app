@@ -3,15 +3,32 @@
 </div>
 <main role="main">
   <div class="game-container">
-    <div class="flex gap-4">
-      @for (balloon of balloons; track balloon.id) {
-        <app-balloon (balloonPopped)="balloonPopHandler($event)" [balloon]="balloon"></app-balloon>
-      }
-    </div>
-    <div class="text-2xl font-bold flex gap-4">
-      <span>Score: {{score}}</span>
-      <span>Missed: {{missed}}</span>
-    </div>
+    @if (!gameOver()) {
+      <div class="flex gap-4">
+        @for (balloon of balloons; track balloon.id) {
+          <app-balloon (balloonPopped)="balloonPopHandler($event)"
+            (balloonMissed)="balloonMissHandler()"
+            [balloon]="balloon"
+          >
+          </app-balloon>
+        }
+      </div>
+      <div class="text-2xl font-bold flex gap-4">
+        <span>Score: {{score}}</span>
+        @if (missed()) {
+          <span>Missed: {{missed()}}</span>
+        }
+      </div>
+    } @else {
+      <section>
+        <div class="text-3xl text-center">Game Over</div>
+      </section>
+      <button class="rouded-md px-2 py-1.5 bg-purple-900 text-white cursor-pointer"
+        (click)="startGame()"
+      >
+        Restart
+      </button>
+    }
   </div>
 </main>
 <router-outlet></router-outlet>

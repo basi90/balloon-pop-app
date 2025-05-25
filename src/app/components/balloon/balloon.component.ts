@@ -13,6 +13,7 @@ export class BalloonComponent implements OnInit{
   animationBuilder = inject(AnimationBuilder)
   elementRef = inject(ElementRef)
   @Output() balloonPopped = new EventEmitter<string>()
+  @Output() balloonMissed = new EventEmitter()
 
   ngOnInit(): void {
     this.animateBalloon()
@@ -35,13 +36,14 @@ export class BalloonComponent implements OnInit{
 
     const flyAnimation = this.animationBuilder.build([
       style({ transform: 'translateY(0)' }),
-      animate(`${speed}s ease-out`, style({ transform: 'translateY(-100vh)' }))
+      animate(`${speed}s ease-in-out`, style({ transform: 'translateY(-100vh)' }))
     ]);
 
     const player = flyAnimation.create(balloonEl);
     player.play();
     player.onDone(() => {
       console.log('animation finished');
+      this.balloonMissed.emit()
     });
   }
 
