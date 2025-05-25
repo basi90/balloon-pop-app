@@ -7,7 +7,7 @@
       <div class="flex gap-4">
         @for (balloon of balloons; track balloon.id) {
           <app-balloon (balloonPopped)="balloonPopHandler($event)"
-            (balloonMissed)="balloonMissHandler()"
+            (balloonMissed)="balloonMissHandler($event)"
             [balloon]="balloon"
           >
           </app-balloon>

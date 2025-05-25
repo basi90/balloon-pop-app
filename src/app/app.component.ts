@@ -1,4 +1,4 @@
-import { Component, computed, OnInit, signal } from '@angular/core';
+import { Component, computed, OnInit, signal, viewChildren, effect } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { BalloonComponent } from './components/balloon/balloon.component';
 import { IntBalloon } from './model/balloon.interface';
@@ -17,8 +17,16 @@ export class AppComponent implements OnInit {
   )
   score = 0
   missed = signal(0)
+  maxMisses = 10
   gameOver = computed(() => {
-    return this.missed() === 3
+    return this.missed() === this.maxMisses
+  })
+  balloonElements = viewChildren(BalloonComponent)
+
+  createBalloonsOnDemand = effect(() => {
+    if (this.balloonElements().length < this.balloonsOnView) {
+      this.balloons = [...this.balloons, new Balloon()]
+    }
   })
 
   ngOnInit(): void {
@@ -38,10 +46,13 @@ export class AppComponent implements OnInit {
     this.balloons = this.balloons.filter(
       ballon => ballon.id !== balloonId
     )
-    this.balloons.push(new Balloon())
+    this.balloons = [...this.balloons, new Balloon()]
   }
 
-  balloonMissHandler() {
+  balloonMissHandler(balloonId: string) {
     this.missed.update((value) => value + 1)
+    this.balloons = this.balloons.filter(
+      ballon => ballon.id !== balloonId
+    )
   }
 }
