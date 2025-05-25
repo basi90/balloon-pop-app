@@ -5,7 +5,7 @@
   <div class="game-container">
     <div class="flex gap-4">
       @for (balloon of balloons; track balloon.id) {
-        <app-balloon [balloon]="balloon"></app-balloon>
+        <app-balloon (balloonPopped)="balloonPopHandler($event)" [balloon]="balloon"></app-balloon>
       }
     </div>
     <div class="text-2xl font-bold flex gap-4">

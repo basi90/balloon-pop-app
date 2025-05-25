@@ -17,4 +17,11 @@ export class AppComponent {
   )
   score = 0
   missed = 0
+
+  balloonPopHandler(balloonId: string) {
+    this.score++
+    this.balloons = this.balloons.filter(
+      ballon => ballon.id !== balloonId
+    )
+  }
 }
