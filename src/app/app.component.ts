@@ -11,7 +11,7 @@ import { Balloon } from './model/balloon.class';
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
-  balloonsOnView = 3
+  balloonsOnView = 5
   balloons: IntBalloon[] = new Array(this.balloonsOnView).fill(0).map(
     () => new Balloon()
   )
